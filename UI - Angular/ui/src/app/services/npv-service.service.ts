@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { RequestModel } from '../models/request.model';
+import { ResultModel } from '../models/result.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +13,9 @@ export class NpvServiceService {
 
   constructor(private http: HttpClient) { }
 
-  postData(data: { upper: number, lower: number, rateIncrement: number, cashFlows: number[] }): Observable<{ npv: number, rate: number }[]> {
+  postData(request: RequestModel): Observable<ResultModel[]> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<{ npv: number, rate: number }[]>(this.apiUrl, data, { headers });
+    return this.http.post<ResultModel[]>(this.apiUrl, request, { headers });
   }
-
 }
