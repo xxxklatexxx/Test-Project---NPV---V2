@@ -3,17 +3,29 @@
     <div class="col">
       <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
         <h5>Cash Flow</h5>
-
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"
+            >Initial Investment</span
+          >
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="request.InitialInvestment"
+          />
+        </div>
         <hr />
         <div
           class="input-group mb-3"
           *ngFor="let cashFlow of cashFlows; let i = index"
         >
-          <span class="input-group-text" id="basic-addon1">Period {{ i }}</span>
+          <span class="input-group-text" id="basic-addon1"
+            >Period {{ i + 1 }}</span
+          >
           <input
             type="number"
             class="form-control"
-            [(ngModel)]="cashFlows[i]"
+            [value]="request.CashFlows[i]"
+            (input)="updateCashFlow($event, i)"
           />
         </div>
         <div class="d-grid gap-2 d-md-block">
@@ -43,7 +55,7 @@
           type="number"
           class="form-control"
           aria-describedby="basic-addon1"
-          [(ngModel)]="lowerBoundRate"
+          [(ngModel)]="request.Lower"
         />
       </div>
       <div class="input-group mb-3">
@@ -52,7 +64,7 @@
           type="number"
           class="form-control"
           aria-describedby="basic-addon1"
-          [(ngModel)]="upperBoundRate"
+          [(ngModel)]="request.Upper"
         />
       </div>
       <div class="input-group mb-3">
@@ -61,12 +73,13 @@
           type="number"
           class="form-control"
           aria-describedby="basic-addon1"
-          [(ngModel)]="discountRateIncrement"
+          [(ngModel)]="request.RateIncrement"
         />
       </div>
       <button
         class="btn btn-primary mx-1"
         type="button"
+        id="calculateNpv"
         (click)="calculateNpv()"
       >
         Calculate NPV
@@ -79,7 +92,7 @@
   </div>
 
   <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-    <table datatable >
+    <table class="table">
       <thead>
         <tr>
           <th>Rate</th>
