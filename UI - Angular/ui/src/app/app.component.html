@@ -3,15 +3,42 @@
     <div class="col">
       <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
         <h5>Cash Flow</h5>
+
         <hr />
-        <input type="number" class="form-control my-1" />
+        <div
+          class="input-group mb-3"
+          *ngFor="let cashFlow of cashFlows; let i = index"
+        >
+          <span class="input-group-text" id="basic-addon1">Period {{ i }}</span>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="cashFlows[i]"
+          />
+        </div>
+        <div class="d-grid gap-2 d-md-block">
+          <button
+            class="btn btn-primary mx-1"
+            type="button"
+            (click)="AddCashFlow()"
+          >
+            Add
+          </button>
+          <button
+            class="btn btn-primary mx-1"
+            type="button"
+            (click)="RemoveCashFlow()"
+          >
+            Remove
+          </button>
+        </div>
       </div>
     </div>
     <div class="col shadow-sm p-3 mb-5 bg-body-tertiary rounded">
       <h5>Discount Rate</h5>
       <hr />
       <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Lower Bound</span>
+        <span class="input-group-text" id="basic-addon1">Lower</span>
         <input
           type="number"
           class="form-control"
@@ -20,7 +47,7 @@
         />
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Upper Bound</span>
+        <span class="input-group-text" id="basic-addon1">Upper</span>
         <input
           type="number"
           class="form-control"
@@ -37,10 +64,34 @@
           [(ngModel)]="discountRateIncrement"
         />
       </div>
+      <button
+        class="btn btn-primary mx-1"
+        type="button"
+        (click)="calculateNpv()"
+      >
+        Calculate NPV
+      </button>
     </div>
   </div>
-  
+
   <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
     <div class="ct-chart"></div>
+  </div>
+
+  <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+    <table datatable >
+      <thead>
+        <tr>
+          <th>Rate</th>
+          <th>Net Present Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of result">
+          <td>{{ data.rate }}</td>
+          <td>{{ data.npv }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
